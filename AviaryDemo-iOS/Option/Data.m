@@ -89,7 +89,7 @@
     mainClass.valuesArr = [Data sharedManager].valuesArr;
     
     //NSLog(@"--- [Data sharedManager].valuesDic:%@",[Data sharedManager].valuesDic);
-    // add github
+    // add github 2
     
 }
 
