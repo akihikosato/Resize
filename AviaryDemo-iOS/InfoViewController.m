@@ -131,11 +131,21 @@
     BOOL flag =  (BOOL)sender.selectedSegmentIndex;
     
     if (sender.tag == 0) {
+        // Error
+        if ([self checkDoubleFlag:flag otherFlag:mainClass.flagResize]) {
+            sender.selectedSegmentIndex = mainClass.flagEdit;
+            return;
+        }
         // Edit
         mainClass.flagEdit = flag;
         NSLog(@"--- flag:%d",(BOOL)mainClass.flagEdit);
     }
     if (sender.tag == 1) {
+        // Error
+        if ([self checkDoubleFlag:flag otherFlag:mainClass.flagEdit]) {
+            sender.selectedSegmentIndex = mainClass.flagResize;
+            return;
+        }
         // Resise
         mainClass.flagResize = flag;
     }
@@ -159,12 +169,25 @@
         [alert show];
         */
     }
+    
+    
 
-    //[mainClass.checker saveUserData];
     // Save
     [Data changeUserData:mainClass];
-    
 }
+
+// flagは両立しない
+- (BOOL)checkDoubleFlag:(BOOL)nextFlag
+              otherFlag:(BOOL)otherFlag {
+    if (!nextFlag && !otherFlag) {
+        NSLog(@"--- Double Flag Error !!");
+        // Show ALert
+        return true;
+    } else {
+        return false;
+    }
+}
+
 #pragma mark - TextField
 - (void)editingBegin:(UITextField*)tf {
     

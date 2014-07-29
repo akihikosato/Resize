@@ -12,6 +12,11 @@
 #import "CustomBtn.h"
 #import "CustomTF.h"
 
+typedef enum {
+    DOBLE_FLAG,
+    SILENT
+} ALERT_TYPE;
+
 @class AFSDKDemoViewController;
 @class CustomBtn;
 
@@ -24,6 +29,7 @@ UITextFieldDelegate
 {
     
     CustomBtn *customBtn;
+    ALERT_TYPE alertNum;
     
     
     UIButton *scaleBtn[4];
