@@ -45,10 +45,10 @@
             
             
             data.valuesDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                              @"0",   @"EDIT_MODE",
-                              @"0",   @"RESIZE_MODE",
+                              @"1",   @"EDIT_MODE",
+                              @"1",   @"RESIZE_MODE",
                               @"0",   @"FORMAT",
-                              @"1",   @"SILENT_MODE",
+                              @"0",   @"SILENT_MODE",
                               @"2000", @"LAST_VAL",
                               nil];
             // Save
@@ -66,32 +66,22 @@
 }
 
 #pragma mark -
-+ (void)loadUserData:(AFSDKDemoViewController *)mainClass {
++ (void)loadUserData:(AFSDKDemoViewController*)mainClass {
     
     //Set Main Paras
-    NSString *val;
+    mainClass.flagEdit   = [[[Data sharedManager].valuesDic objectForKey:@"EDIT_MODE"]boolValue];
+    mainClass.flagResize = [[[Data sharedManager].valuesDic objectForKey:@"RESIZE_MODE"]boolValue];
+    mainClass.format     = [[[Data sharedManager].valuesDic objectForKey:@"FORMAT"]boolValue];
+    mainClass.flagSilent = [[[Data sharedManager].valuesDic objectForKey:@"SILENT_MODE"]boolValue];
+    mainClass.lastVal    = [[[Data sharedManager].valuesDic objectForKey:@"LAST_VAL"]floatValue ];
+    mainClass.valuesArr  = [NSMutableArray arrayWithArray:[Data sharedManager].valuesArr];
     
-    val = [[Data sharedManager].valuesDic objectForKey:@"EDIT_MODE"];
-    mainClass.flagEdit = val.boolValue;
-    
-    val = [[Data sharedManager].valuesDic objectForKey:@"RESIZE_MODE"];
-    mainClass.flagResize = val.boolValue;
-    
-    val = [[Data sharedManager].valuesDic objectForKey:@"FORMAT"];
-    mainClass.fotmat = val.boolValue;
-    
-    val = [[Data sharedManager].valuesDic objectForKey:@"SILENT_MODE"];
-    mainClass.flagSilent = val.boolValue;
-    
-    val = [[Data sharedManager].valuesDic objectForKey:@"LAST_VAL"];
-    mainClass.lastVal = val.floatValue;
-    
-    mainClass.valuesArr = [Data sharedManager].valuesArr;
-    
-    //NSLog(@"--- [Data sharedManager].valuesDic:%@",[Data sharedManager].valuesDic);
-    // add github 2---
-    // clone Data
-    
+   // NSLog(@"--- [Data sharedManager].valuesDic:%@",[Data sharedManager].valuesDic);
+    NSLog(@"--- Load Data -> flagEdit:%d flagResize:%d format:%d lastVal:%.1f",
+          mainClass.flagEdit,
+          mainClass.flagResize,
+          mainClass.format,
+          mainClass.lastVal);
 }
 
 + (NSMutableArray*)loadScaleArr {
@@ -110,7 +100,7 @@
     NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                 [FMT:@"%d",(int)mainClass.flagEdit],     @"EDIT_MODE",
                                 [FMT:@"%d",(int)mainClass.flagResize],   @"RESIZE_MODE",
-                                [FMT:@"%d",(int)mainClass.fotmat],       @"FORMAT",
+                                [FMT:@"%d",(int)mainClass.format],       @"FORMAT",
                                 [FMT:@"%d",(int)mainClass.flagSilent],   @"SILENT_MODE",
                                 [FMT:@"%f",mainClass.lastVal],           @"LAST_VAL",
                                 nil];

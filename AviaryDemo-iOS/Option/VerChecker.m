@@ -222,7 +222,7 @@
     main.flagResize = val.boolValue;
     
     val = [dic objectForKey:@"FORMAT"];
-    main.fotmat = val.boolValue;
+    main.format = val.boolValue;
     
     val = [dic objectForKey:@"SILENT_MODE"];
     main.flagSilent = val.boolValue;
@@ -244,7 +244,7 @@
     NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:
                          [FMT:@"%d",(int)main.flagEdit],     @"EDIT_MODE",
                          [FMT:@"%d",(int)main.flagResize],   @"RESIZE_MODE",
-                         [FMT:@"%d",(int)main.fotmat],       @"FORMAT",
+                         [FMT:@"%d",(int)main.format],       @"FORMAT",
                          [FMT:@"%d",(int)main.flagSilent],   @"SILENT_MODE",
                          main.valuesArr,                     @"VALUES",
                          [FMT:@"%f",main.lastVal],           @"LAST_VAL",

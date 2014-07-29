@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4510" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment defaultVersion="1792" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="InfoViewController">
@@ -70,8 +70,8 @@
                         <rect key="frame" x="185" y="11" width="123" height="29"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <segments>
-                            <segment title="ON"/>
                             <segment title="OFF"/>
+                            <segment title="ON"/>
                         </segments>
                         <connections>
                             <action selector="segmentAction:" destination="-1" eventType="valueChanged" id="hqC-wJ-DTX"/>
@@ -148,8 +148,8 @@
                         <rect key="frame" x="185" y="11" width="123" height="29"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <segments>
-                            <segment title="ON"/>
                             <segment title="OFF"/>
+                            <segment title="ON"/>
                         </segments>
                         <connections>
                             <action selector="segmentAction:" destination="-1" eventType="valueChanged" id="QI2-7H-dPX"/>
@@ -187,8 +187,8 @@
                         <rect key="frame" x="185" y="14" width="123" height="29"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <segments>
-                            <segment title="ON" enabled="NO"/>
-                            <segment title="OFF"/>
+                            <segment title="OFF" enabled="NO"/>
+                            <segment title="ON"/>
                         </segments>
                         <connections>
                             <action selector="segmentAction:" destination="-1" eventType="valueChanged" id="ZkS-y6-SIM"/>
@@ -213,7 +213,7 @@
                         </connections>
                     </button>
                     <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="5Oa-Bb-c0A">
-                        <rect key="frame" x="20" y="57" width="280" height="34"/>
+                        <rect key="frame" x="20" y="57" width="280" height="31"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </slider>
                 </subviews>

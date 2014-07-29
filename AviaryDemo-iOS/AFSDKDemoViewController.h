@@ -97,7 +97,7 @@ typedef enum {
 @property (nonatomic) UIView *adView, *iconView;
 
 // KEYS
-@property (nonatomic, assign) BOOL *flagEdit, *flagResize, *fotmat, *flagSilent;
+@property (nonatomic) BOOL flagEdit, flagResize, format, flagSilent;
 @property (nonatomic, assign) float lastVal;
 @property (nonatomic, retain) NSMutableArray *valuesArr;
 

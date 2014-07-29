@@ -84,6 +84,13 @@
         
         mainClass.iconView = iconView;
         [mainClass.view addSubview:mainClass.iconView];
+        
+        NSLog(@"--- Now Data -> flagEdit:%d flagResize:%d format:%d lastVal:%.1f",
+              mainClass.flagEdit,
+              mainClass.flagResize,
+              mainClass.format,
+              mainClass.lastVal);
+        
     }
     else if (4 < sender.tag) {
         
@@ -113,7 +120,7 @@
 - (void)initSegment {
     seg0.selectedSegmentIndex = (int)mainClass.flagEdit;
     seg1.selectedSegmentIndex = (int)mainClass.flagResize;
-    seg2.selectedSegmentIndex = (int)mainClass.fotmat;
+    seg2.selectedSegmentIndex = (int)mainClass.format;
     seg3.selectedSegmentIndex = (int)mainClass.flagSilent;
 }
 
@@ -132,9 +139,9 @@
         // Resise
         mainClass.flagResize = flag;
     }
-    if (sender.tag == 3) {
+    if (sender.tag == 2) {
         // Format
-        mainClass.fotmat = flag;
+        mainClass.format = flag;
     }
     if (sender.tag == 3) {
         // Silent
@@ -153,7 +160,9 @@
         */
     }
 
-    [mainClass.checker saveUserData];
+    //[mainClass.checker saveUserData];
+    // Save
+    [Data changeUserData:mainClass];
     
 }
 #pragma mark - TextField

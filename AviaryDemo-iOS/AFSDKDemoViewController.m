@@ -38,7 +38,7 @@ UIPopoverControllerDelegate
 @synthesize imagePreviewView;
 @synthesize checker;
 @synthesize slider, maxX, maxY, adView, iconView;
-@synthesize flagEdit, flagResize, flagSilent, fotmat, lastVal, valuesArr;
+@synthesize flagEdit, flagResize, flagSilent, format, lastVal, valuesArr;
 
 #pragma mark - View Controller Methods
 - (void)viewDidLoad
@@ -149,6 +149,10 @@ UIPopoverControllerDelegate
     
 }
 
+- (void)loadUserData {
+    
+}
+
 - (void)settingUserData {
     
     NSLog(@"--- %f",lastVal);
@@ -196,11 +200,17 @@ UIPopoverControllerDelegate
         imgPicker.sourceType = UIImagePickerControllerSourceTypeCamera;
         
         
-        // カメラと動画を選択可能にする
+        /*// カメラと動画を選択可能にする
         imgPicker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:UIImagePickerControllerSourceTypeCamera];
+        */
         
         // 画像の大きさを調整するView
-        [imgPicker.view addSubview:scaleView];
+        if (flagResize) {
+            [imgPicker.view addSubview:scaleView];
+        } else {
+            [scaleView removeFromSuperview];
+        }
+        
         
         // Set Scale
         [setBtn1 setTitle:[FMT:@"%.0f",[[valuesArr objectAtIndex:0]floatValue]] forState:UIControlStateNormal];
@@ -213,6 +223,7 @@ UIPopoverControllerDelegate
         //imgPicker.videoMaximumDuration = 10.0f;
         
         type = sender.tag;
+        
         [self presentViewController:imgPicker animated:YES completion:NULL];
         
         [self sendAnalytics:@"/camera"];
@@ -227,6 +238,8 @@ UIPopoverControllerDelegate
         
         // Movie
         //imgPicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        
+        //NSLog(@"--- flagResize:%d",flagResize);
         
         type = sender.tag;
         [self presentViewController:imgPicker animated:YES completion:NULL];
@@ -293,7 +306,10 @@ UIPopoverControllerDelegate
     
      [[self assetLibrary] assetForURL:assetURL resultBlock:^(ALAsset *asset) {
          if (asset) {
-             [self launchEditorWithAsset:asset];
+             
+             if (type == CAMERA && flagEdit) { // カメラ仕様時,編集モード
+                 [self launchEditorWithAsset:asset];
+             }
          }
          } failureBlock:^(NSError *error) {
          /*
@@ -407,6 +423,13 @@ UIPopoverControllerDelegate
     // Present the photo editor. default;animated:YES
     [self presentViewController:photoEditor animated:YES completion:nil];
     
+    // Set Resize Mode
+    if (flagResize) {
+        [photoEditor.view addSubview:scaleView];
+    } else {
+        [scaleView removeFromSuperview];
+    }
+    
 
     /*//-------------------------------------------------------------------------
     // View Animation
@@ -425,8 +448,6 @@ UIPopoverControllerDelegate
     [photoEditor.view addSubview:adView];
     //photoEditor.
     //-------------------------------------------------------------------------*/
-
-
     
 }
 
@@ -450,6 +471,10 @@ UIPopoverControllerDelegate
     // our reference to the session. 
     [context render:^(UIImage *result) {
         if (result) {
+            
+            // フォーマット変換
+            result = [self myFormatImage:result];
+            
             UIImageWriteToSavedPhotosAlbum(result, nil, nil, NULL);
         }
         
@@ -604,9 +629,35 @@ UIPopoverControllerDelegate
         //UIImageWriteToSavedPhotosAlbum(image, nil, nil, NULL);
         UIImageWriteToSavedPhotosAlbum(image, self, nil, nil);
     
-        // Save Time 1.0 sc
-        [self performSelector:@selector(checkAlbumInfo) withObject:nil afterDelay:2.0f];
+        // Edit Mode
+        if (flagEdit) { // Save Time 1.0 sc
+            [self performSelector:@selector(checkAlbumInfo) withObject:nil afterDelay:2.0f];
+        } else {
+            
+        }
+        
     }
+}
+
+// Change Format
+- (UIImage*)myFormatImage:(UIImage*)img {
+    
+    // フォーマット変換
+    NSData *dataFormat;
+    
+    NSLog(@"--- format:%d",format);
+    
+    if (!format) {
+        // jpg
+        dataFormat = UIImageJPEGRepresentation(img, 1.0f);
+    } else {
+        // png
+        dataFormat = UIImagePNGRepresentation(img);
+    }
+    
+    img = [UIImage imageWithData:dataFormat];
+    
+    return img;
 }
 
 // Photo Resize
@@ -614,14 +665,17 @@ UIPopoverControllerDelegate
     
     // 画像のリサイズ後のサイズ
     CGSize resizedSize = CGSizeMake(photoX, photoY);
-    
     NSLog(@"--- Saved Size:%.0f x %.0f",photoY, photoX);
     
-    // UIGraphics××の関数を利用して、画像をリサイズする
+    // フォーマット変換
+    img = [self myFormatImage:img];
+    
+    // 画像をリサイズする
     UIGraphicsBeginImageContext(resizedSize);
     [img drawInRect:CGRectMake(0, 0, resizedSize.width, resizedSize.height)];
     UIImage* resizedImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
+    
     
     return resizedImage;
 }
