@@ -98,12 +98,19 @@
 + (void)changeUserData:(AFSDKDemoViewController *)mainClass {
     
     NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                [FMT:@"%d",(int)mainClass.flagEdit],     @"EDIT_MODE",
-                                [FMT:@"%d",(int)mainClass.flagResize],   @"RESIZE_MODE",
-                                [FMT:@"%d",(int)mainClass.format],       @"FORMAT",
-                                [FMT:@"%d",(int)mainClass.flagSilent],   @"SILENT_MODE",
-                                [FMT:@"%f",mainClass.lastVal],           @"LAST_VAL",
+                                [FMT:@"%d",mainClass.flagEdit],     @"EDIT_MODE",
+                                [FMT:@"%d",mainClass.flagResize],   @"RESIZE_MODE",
+                                [FMT:@"%d",mainClass.format],       @"FORMAT",
+                                [FMT:@"%d",mainClass.flagSilent],   @"SILENT_MODE",
+                                [FMT:@"%f",mainClass.lastVal],      @"LAST_VAL",
                                 nil];
+    
+    NSLog(@"--- Save Data -> flagEdit:%d flagResize:%d format:%d lastVal:%.1f",
+          mainClass.flagEdit,
+          mainClass.flagResize,
+          mainClass.format,
+          mainClass.lastVal);
+
     // Save
     [[NSUserDefaults standardUserDefaults]setObject:dic forKey:USER_DATA];
 }

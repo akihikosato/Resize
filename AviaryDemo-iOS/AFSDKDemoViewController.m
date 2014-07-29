@@ -82,7 +82,7 @@ UIPopoverControllerDelegate
 
     // Waiting View
     waitingView2.center = titleView.center;
-    waitingView2.backgroundColor =  [UIColor colorWithRed:0.3 green:0.3 blue:0.3 alpha:0.8];
+    waitingView2.backgroundColor = WAITVIEW_COL;
     waitingView2.layer.cornerRadius = 7;
     waitingView2.clipsToBounds = YES;
     
@@ -133,6 +133,11 @@ UIPopoverControllerDelegate
     icon1Params.iconTitleShadowEnable = YES;
     icon1Params.iconTitleShadowColor = @"#777777";
     [ImobileSdkAds showBySpotID:SPOT_ID_ICON View:iconView IconPrams:icon1Params];
+    
+    // 4inch
+    if (SMALL_SCREEN) {
+        iconView.hidden = YES;
+    }
 
     // Checker
     checker = [[VerChecker alloc]init:self];
@@ -186,10 +191,10 @@ UIPopoverControllerDelegate
 #pragma mark - Btn Action
 - (IBAction)titleBtnAction:(UIButton *)sender {
     
+    addEdited = NO;
+    
     UIImagePickerController *imgPicker = [[UIImagePickerController alloc]init];
     imgPicker.delegate = self;
-    //imgPicker.allowsEditing = YES; // トリミングの可否
-    NSLog(@"--- ----");
     
     if (sender.tag == CAMERA) {
         // Camera
@@ -204,9 +209,13 @@ UIPopoverControllerDelegate
         imgPicker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:UIImagePickerControllerSourceTypeCamera];
         */
         
+        NSLog(@"--- flagResize:%d",flagResize);
         // 画像の大きさを調整するView
         if (flagResize) {
             [imgPicker.view addSubview:scaleView];
+            if (SMALL_SCREEN) {
+                sizeLabel.transform = CGAffineTransformMakeTranslation(0, 0);
+            }
         } else {
             [scaleView removeFromSuperview];
         }
@@ -268,8 +277,6 @@ UIPopoverControllerDelegate
     }
     
     if (sender.tag == 4) { // Inter
-        
-        [ImobileSdkAds showBySpotID:SPOT_ID_INT];
     }
     
     else {
@@ -324,6 +331,8 @@ UIPopoverControllerDelegate
 // Set Scale
 - (IBAction)scalebtnAction:(UIButton*)sender {
     
+    addEdited = YES;
+    
     NSLog(@"--- scale Btn:%d",sender.tag);
     
     float val;
@@ -377,10 +386,40 @@ UIPopoverControllerDelegate
 // Slider Action
 - (void)changeSlider:(UISlider*)sender {
     
+    addEdited = YES;
+    
     photoY = sender.value;
     photoX = sender.value * sizeVal;
     
     [sizeLabel setText:[NSString stringWithFormat:@"%.0f x %.0f",photoX, photoY]];
+}
+
+// Show Ads
+- (void)addInterAds {
+    if (rand()%10 % 3 == 0) {
+        [ImobileSdkAds showBySpotID:SPOT_ID_INT];
+    }
+}
+
+#pragma mark - Alert
+- (void)showAlert:(int)type_ {
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil
+                                                    message:@"Photo is saved..."
+                                                   delegate:self
+                                          cancelButtonTitle:@"OK"
+                                          otherButtonTitles:nil];
+    alert.tag = type_;
+    
+    [alert show];
+}
+
+- (void)alertView:(UIAlertView *)alertView
+clickedButtonAtIndex:(NSInteger)buttonIndex {
+    
+    if (alertView.tag == SAVED) {
+        [self addInterAds]; // Ads
+    }
 }
 
 #pragma mark - Photo Editor Launch Methods
@@ -426,6 +465,10 @@ UIPopoverControllerDelegate
     // Set Resize Mode
     if (flagResize) {
         [photoEditor.view addSubview:scaleView];
+        
+        if (SMALL_SCREEN) {
+            sizeLabel.transform = CGAffineTransformMakeTranslation(0, -95);
+        }
     } else {
         [scaleView removeFromSuperview];
     }
@@ -475,7 +518,23 @@ UIPopoverControllerDelegate
             // フォーマット変換
             result = [self myFormatImage:result];
             
+            if (addEdited) { // サイズ補正あり
+                result = [self resizeImage:result];
+            }
+            
             UIImageWriteToSavedPhotosAlbum(result, nil, nil, NULL);
+            
+            // Show Alert
+            [self showAlert:SAVED];
+        }
+        
+        if (!result && addEdited) {
+            NSLog(@"--- 画像ない");
+            mainImage = [self resizeImage:mainImage]; // リサイズ
+            mainImage = [self myFormatImage:mainImage]; // フォーマット変換
+            UIImageWriteToSavedPhotosAlbum(mainImage, self, nil, nil);
+            // Show Alert
+            [self showAlert:SAVED];
         }
         
         [[blockSelf sessions] removeObject:session];
@@ -586,8 +645,8 @@ UIPopoverControllerDelegate
         photoUrl = [info objectForKey:UIImagePickerControllerReferenceURL];
         
         // Check Photo Type
-        UIImage *img =  [info objectForKey:UIImagePickerControllerOriginalImage];
-        CGImageRef ref = img.CGImage;
+        mainImage =  [info objectForKey:UIImagePickerControllerOriginalImage];
+        CGImageRef ref = mainImage.CGImage;
         photoX = (float)CGImageGetWidth(ref);
         photoY = (float)CGImageGetHeight(ref);
         NSLog(@"画像サイズ:%.0f x %.0f", photoX, photoY);
@@ -599,6 +658,9 @@ UIPopoverControllerDelegate
         }
         
         [sizeLabel setText:[NSString stringWithFormat:@"%.0f x %.0f",photoX, photoY]];
+        
+        // Set Slider
+        slider.value = photoY;
         
         [self setPhotoUrl:photoUrl];
         
@@ -624,7 +686,11 @@ UIPopoverControllerDelegate
         // Assetを使うためにはセーブしなければならない
         UIImage *image = (UIImage *)[info objectForKey:UIImagePickerControllerOriginalImage];
         
+        // リサイズ
         image = [self resizeImage:image];
+        
+        // フォーマット変換
+        image = [self myFormatImage:image];
         
         //UIImageWriteToSavedPhotosAlbum(image, nil, nil, NULL);
         UIImageWriteToSavedPhotosAlbum(image, self, nil, nil);
@@ -633,9 +699,9 @@ UIPopoverControllerDelegate
         if (flagEdit) { // Save Time 1.0 sc
             [self performSelector:@selector(checkAlbumInfo) withObject:nil afterDelay:2.0f];
         } else {
-            
+            [self showAlert:SAVED]; // Alert
+            [self dismissViewControllerAnimated:YES completion:nil];
         }
-        
     }
 }
 
@@ -667,15 +733,11 @@ UIPopoverControllerDelegate
     CGSize resizedSize = CGSizeMake(photoX, photoY);
     NSLog(@"--- Saved Size:%.0f x %.0f",photoY, photoX);
     
-    // フォーマット変換
-    img = [self myFormatImage:img];
-    
     // 画像をリサイズする
     UIGraphicsBeginImageContext(resizedSize);
     [img drawInRect:CGRectMake(0, 0, resizedSize.width, resizedSize.height)];
     UIImage* resizedImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    
     
     return resizedImage;
 }

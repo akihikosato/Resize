@@ -34,6 +34,7 @@ UITextFieldDelegate
     
     UIButton *scaleBtn[4];
     UITextField *textField[4];
+
     
     IBOutlet UITableView *tableView;
     IBOutlet UIButton    *backBtn;

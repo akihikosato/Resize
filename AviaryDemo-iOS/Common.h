@@ -31,6 +31,10 @@
 
 #define SPOT_ID_ICON         @"257393"
 
+#define WAITVIEW_COL [UIColor colorWithRed:0.3 green:0.3 blue:0.3 alpha:0.8]
+
+#define SMALL_SCREEN self.view.frame.size.height == 480.0f
+
 // Data
 #define JSON_URL @"https://script.google.com/macros/s/AKfycbxMtAgs9XhylOre3LXRjRKCTgCrli7mvvkZzIVw-uPfjBXkolk/exec"
 //#define DATA @"USER_DATA"

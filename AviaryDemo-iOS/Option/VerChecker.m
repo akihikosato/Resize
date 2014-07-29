@@ -39,25 +39,26 @@
     // Base View
     UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 100, 100)];
     view.center = mainClass.view.center;
-    view.backgroundColor = [UIColor colorWithRed:0.3 green:0.3 blue:0.3 alpha:0.8];
+    view.backgroundColor = WAITVIEW_COL;
     view.layer.cornerRadius = 7;
     view.clipsToBounds = YES;
     [mainClass.view addSubview:view];
     
     // UILabel
-    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 100, 20)];
-    label.text = @"Loading...";
+    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 100, 40)];
+    label.numberOfLines = 2;
+    label.text = @"checking\nnow version...";
     label.alpha = 0.8f;
     label.textAlignment = NSTextAlignmentCenter;
     label.font = [UIFont fontWithName:@"HiraKakuProN-W3" size:13];
     label.textColor = [UIColor whiteColor];
-    label.center = CGPointMake(mainClass.view.center.x, mainClass.view.center.y + 35);
+    label.center = CGPointMake(mainClass.view.center.x, mainClass.view.center.y + 30);
     [mainClass.view addSubview:label];
     
     // Indicator
     UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
     indicator.frame = CGRectMake(0, 0, 50, 50);
-    indicator.center = CGPointMake(mainClass.view.center.x, mainClass.view.center.y - 5);
+    indicator.center = CGPointMake(mainClass.view.center.x, mainClass.view.center.y - 10);
     [mainClass.view addSubview:indicator];
     [indicator startAnimating];
 

@@ -34,12 +34,18 @@ typedef enum {
     SMALL
 } IMAGE_SIZE;
 
+typedef enum {
+    SAVED
+} ALERT;
+
 @class Setting;
 @class InfoViewController;
 @class VerChecker;
 
 @interface AFSDKDemoViewController : UIViewController
-
+<
+UIAlertViewDelegate
+>
 {
     // Class
     Setting    *setting;
@@ -55,7 +61,7 @@ typedef enum {
     
     float photoX, photoY, sizeVal, btnVal[4];
     int   photoNum;
-    BOOL  isSetted;
+    BOOL  isSetted, addEdited;;
     
     NSDictionary *pickerInfoDic;
     UIImage      *savedImage;
