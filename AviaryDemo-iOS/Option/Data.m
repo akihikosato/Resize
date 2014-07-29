@@ -90,6 +90,7 @@
     
     //NSLog(@"--- [Data sharedManager].valuesDic:%@",[Data sharedManager].valuesDic);
     // add github 2---
+    // clone Data
     
 }
 
