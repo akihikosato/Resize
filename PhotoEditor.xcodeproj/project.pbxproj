@@ -52,6 +52,7 @@
 		3FDDBB5619758606006697BA /* AFSDKDemoViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3FDDBB5519758606006697BA /* AFSDKDemoViewController_iPhone.xib */; };
 		3FDDBB5A19759949006697BA /* AviarySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FDDBB5819759949006697BA /* AviarySDK.framework */; };
 		3FDDBB5B19759949006697BA /* AviarySDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3FDDBB5919759949006697BA /* AviarySDKResources.bundle */; };
+		86E51CFA19875BA200EA8E28 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 86E51CFC19875BA200EA8E28 /* Localizable.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -118,6 +119,9 @@
 		3FDDBB5519758606006697BA /* AFSDKDemoViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AFSDKDemoViewController_iPhone.xib; sourceTree = "<group>"; };
 		3FDDBB5819759949006697BA /* AviarySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AviarySDK.framework; sourceTree = "<group>"; };
 		3FDDBB5919759949006697BA /* AviarySDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AviarySDKResources.bundle; sourceTree = "<group>"; };
+		86E51CF719875AA700EA8E28 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		86E51CFB19875BA200EA8E28 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
+		86E51CFD19875BA700EA8E28 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -226,6 +230,7 @@
 				06CD768B16B047030040A783 /* Default.png */,
 				06CD768D16B047030040A783 /* Default@2x.png */,
 				06CD768F16B047030040A783 /* Default-568h@2x.png */,
+				86E51CFC19875BA200EA8E28 /* Localizable.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -351,6 +356,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				ja,
 			);
 			mainGroup = 06CD766A16B047030040A783;
 			productRefGroup = 06CD767616B047030040A783 /* Products */;
@@ -380,6 +386,7 @@
 				06CD796116B334830040A783 /* splash@2x.png in Resources */,
 				06CD796216B334830040A783 /* splash~ipad.png in Resources */,
 				06CD796316B334830040A783 /* splash~ipad@2x.png in Resources */,
+				86E51CFA19875BA200EA8E28 /* Localizable.strings in Resources */,
 				06CD797116B33E7B0040A783 /* icon57.png in Resources */,
 				06CD797416B33E830040A783 /* icon114.png in Resources */,
 				06CD797616B33E8C0040A783 /* icon72.png in Resources */,
@@ -430,8 +437,18 @@
 			isa = PBXVariantGroup;
 			children = (
 				06CD768316B047030040A783 /* en */,
+				86E51CF719875AA700EA8E28 /* ja */,
 			);
 			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		86E51CFC19875BA200EA8E28 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				86E51CFB19875BA200EA8E28 /* ja */,
+				86E51CFD19875BA700EA8E28 /* en */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

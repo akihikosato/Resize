@@ -45,7 +45,7 @@ UIPopoverControllerDelegate
 {
     [super viewDidLoad];
     
-    
+    //NSLog(@"--- %@",NSLocalizedString(@"sampleText", nil));
     
     // Allocate Asset Library
     ALAssetsLibrary * assetLibrary = [[ALAssetsLibrary alloc] init];
