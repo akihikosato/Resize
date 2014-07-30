@@ -517,10 +517,7 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
     // our reference to the session.
     [context render:^(UIImage *result) {
         
-        photoEditor.view.tag = CALCEL;
-        
         if (result) {
-            photoEditor.view.tag = EDIT;
             // フォーマット変換
             result = [self myFormatImage:result];
             
@@ -534,20 +531,10 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
             [self showAlert:SAVED];
         }
         
-        //NSLog(@"--- addEdited:%d",addEdited);
-        
-        if (photoEditor.view.tag == SCALE_EDIT) {
-            mainImage = [self resizeImage:mainImage];   // リサイズ
-            mainImage = [self myFormatImage:mainImage]; // フォーマット変換
-            UIImageWriteToSavedPhotosAlbum(mainImage, self, nil, nil);
-            [self showAlert:SAVED]; // Show Alert
-        }
         
         [[blockSelf sessions] removeObject:session];
-        
         blockSelf = nil;
-        session = nil;
-        
+        session   = nil;
     }];
 }
 
@@ -559,10 +546,12 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
     [[self imagePreviewView] setImage:image];
     [[self imagePreviewView] setContentMode:UIViewContentModeScaleAspectFit];
     
-    NSLog(@"--- done");
-    
-    if (addEdited) {
-        editor.view.tag = SCALE_EDIT;
+    if (type == ALBUM && addEdited) {
+        NSLog(@"--- Save Resize photo... ---");
+        mainImage = [self resizeImage:mainImage];   // リサイズ
+        mainImage = [self myFormatImage:mainImage]; // フォーマット変換
+        UIImageWriteToSavedPhotosAlbum(mainImage, self, nil, nil);
+        [self showAlert:SAVED]; // Show Alert
     }
     
     
