@@ -350,7 +350,7 @@ UIPopoverControllerDelegate
         case 3: val = [[valuesArr objectAtIndex:3]floatValue];//1880;
             break;
         case 4:
-            if (imageSize == 0) {
+            if (imageSize == 0) { // iPhone4以外
                 val = 3264.0f;
             } else {
                 val = 2592.0f;
@@ -428,6 +428,9 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
 #pragma mark - Photo Editor Launch Methods
 - (void) launchEditorWithAsset:(ALAsset *)asset
 {
+    // 変更フラグ初期化
+    addEdited = NO;
+    
     UIImage * editingResImage = [self editingResImageForAsset:asset];
     UIImage * highResImage = [self highResImageForAsset:asset];
     
@@ -546,14 +549,17 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
     [[self imagePreviewView] setImage:image];
     [[self imagePreviewView] setContentMode:UIViewContentModeScaleAspectFit];
     
-    if (type == ALBUM && addEdited) {
+    if (addEdited) {
+
         NSLog(@"--- Save Resize photo... ---");
         mainImage = [self resizeImage:mainImage];   // リサイズ
         mainImage = [self myFormatImage:mainImage]; // フォーマット変換
         UIImageWriteToSavedPhotosAlbum(mainImage, self, nil, nil);
         [self showAlert:SAVED]; // Show Alert
+
+        // Save last val
+        [self setLastPara];
     }
-    
     
     [self dismissViewControllerAnimated:YES completion:nil];
 }
@@ -591,7 +597,8 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
 }
 
 #pragma mark - UIImagePicker Delegate
-- (void) imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+- (void) imagePickerController:(UIImagePickerController *)picker
+ didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
     
     pickerInfoDic = info;
@@ -670,18 +677,8 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
     } else { // Camera
         
         NSLog(@"--- Pre Size:%.0f x %.0f",photoY, photoX);
-        //////////////////////////////////////////////////
-        // Save Para
-        if (photoX < photoY) {
-            // 縦長
-            photoType = PHOTO_POR;
-            //lastVal = photoX;
-        } else {
-            photoType = PHOTO_LAN;
-            //lastVal = photoX;
-        }
-        [Data changeUserData:self];
-        //////////////////////////////////////////////////
+        
+        [self setLastPara];
         
         // Indicator
         [picker.view addSubview:waitingView2];
@@ -706,6 +703,25 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
             [self dismissViewControllerAnimated:YES completion:nil];
         }
     }
+}
+
+// Set last para
+- (void)setLastPara {
+    // Save Para
+    if (photoX < photoY) {
+        // 縦長
+        photoType = PHOTO_POR;
+        lastVal = photoY;
+    } else {
+        photoType = PHOTO_LAN;
+        lastVal = photoX;
+    }
+    [self performSelector:@selector(saveData) withObject:nil afterDelay:0.5f];
+}
+
+// Delay
+- (void)saveData {
+    [Data changeUserData:self];
 }
 
 // Change Format

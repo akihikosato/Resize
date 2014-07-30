@@ -20,8 +20,8 @@ typedef enum {
 } SHIFT;
 
 typedef enum {
-    PHOTO_POR,
-    PHOTO_LAN
+    PHOTO_POR, // 縦長
+    PHOTO_LAN  // 横長
 } PHOTO_TYPE;
 
 typedef enum {
