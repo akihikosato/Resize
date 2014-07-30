@@ -38,6 +38,12 @@ typedef enum {
     SAVED
 } ALERT;
 
+typedef enum {
+    EDIT,
+    SCALE_EDIT,
+    CALCEL
+} EDITOR_STATE;
+
 @class Setting;
 @class InfoViewController;
 @class VerChecker;

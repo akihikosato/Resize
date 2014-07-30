@@ -191,6 +191,9 @@ UIPopoverControllerDelegate
 #pragma mark - Btn Action
 - (IBAction)titleBtnAction:(UIButton *)sender {
     
+    NSLog(@"--- lastVal:%f",lastVal);
+    
+    // Reset Flag
     addEdited = NO;
     
     UIImagePickerController *imgPicker = [[UIImagePickerController alloc]init];
@@ -511,10 +514,13 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
     // to the context's image. It will not complete until some point after the session closes (i.e. the editor hits done or
     // cancel in the editor). When rendering does complete, the completion block will be called with the result image if changes
     // were made to it, or `nil` if no changes were made. In this case, we write the image to the user's photo album, and release
-    // our reference to the session. 
+    // our reference to the session.
     [context render:^(UIImage *result) {
+        
+        photoEditor.view.tag = CALCEL;
+        
         if (result) {
-            
+            photoEditor.view.tag = EDIT;
             // フォーマット変換
             result = [self myFormatImage:result];
             
@@ -528,13 +534,13 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
             [self showAlert:SAVED];
         }
         
-        if (!result && addEdited) {
-            NSLog(@"--- 画像ない");
-            mainImage = [self resizeImage:mainImage]; // リサイズ
+        //NSLog(@"--- addEdited:%d",addEdited);
+        
+        if (photoEditor.view.tag == SCALE_EDIT) {
+            mainImage = [self resizeImage:mainImage];   // リサイズ
             mainImage = [self myFormatImage:mainImage]; // フォーマット変換
             UIImageWriteToSavedPhotosAlbum(mainImage, self, nil, nil);
-            // Show Alert
-            [self showAlert:SAVED];
+            [self showAlert:SAVED]; // Show Alert
         }
         
         [[blockSelf sessions] removeObject:session];
@@ -552,13 +558,21 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
 {
     [[self imagePreviewView] setImage:image];
     [[self imagePreviewView] setContentMode:UIViewContentModeScaleAspectFit];
-
+    
+    NSLog(@"--- done");
+    
+    if (addEdited) {
+        editor.view.tag = SCALE_EDIT;
+    }
+    
+    
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 // This is called when the user taps "Cancel" in the photo editor.
 - (void) photoEditorCanceled:(AFPhotoEditorController *)editor
 {
+    //NSLog(@"--- dismiss:%d",editor.view.tag);
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
