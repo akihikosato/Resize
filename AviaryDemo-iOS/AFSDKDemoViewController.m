@@ -152,6 +152,7 @@ UIPopoverControllerDelegate
     // Size Label
     [sizeLabel setText:[NSString stringWithFormat:@"%.0f x %.0f",photoX, photoY]];
     
+    
 }
 
 - (void)loadUserData {

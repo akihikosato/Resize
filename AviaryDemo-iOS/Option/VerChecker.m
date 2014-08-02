@@ -147,6 +147,8 @@
     
     if (alertView.tag == 0) {
         // App Store
+        NSURL *url = [NSURL URLWithString:NSLocalizedString(@"open_url", nil)];
+        [[UIApplication sharedApplication] openURL:url];
     } else {
         
     }
