@@ -24,7 +24,8 @@ typedef enum {
 <
 UITableViewDelegate,
 UITableViewDataSource,
-UITextFieldDelegate
+UITextFieldDelegate,
+UIAlertViewDelegate
 >
 {
     

@@ -408,7 +408,7 @@ UIPopoverControllerDelegate
 - (void)showAlert:(int)type_ {
     
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil
-                                                    message:@"Photo is saved..."
+                                                    message:NSLocalizedString(@"save", nil)
                                                    delegate:self
                                           cancelButtonTitle:@"OK"
                                           otherButtonTitles:nil];

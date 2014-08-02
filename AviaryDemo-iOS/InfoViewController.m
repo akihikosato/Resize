@@ -96,27 +96,40 @@
         
         [CustomBtn addAnimation:sender];
         
-        // Infomation Alert
-        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Title"
-                                                       message:nil
-                                                      delegate:nil
-                                             cancelButtonTitle:nil
-                                             otherButtonTitles:@"OK", nil
-                              ];
-        
-        alert.tag = sender.tag;
-        [alert setMessage:[self dialogMessage:sender.tag]];
-        
-        [alert show];
+        // Show Alert
+        [self showAlert:sender.tag];
     }
 }
 
-- (NSString*)dialogMessage:(int)tag {
+- (void)showAlert:(int)num {
     
-    return @"Message......";
+    // Infomation Alert
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil
+                                                   message:nil
+                                                  delegate:self
+                                         cancelButtonTitle:nil
+                                         otherButtonTitles:@"OK", nil
+                          ];
+    
+    if (num == 10) {
+        // Error
+        alert.title = NSLocalizedString(@"error",nil);
+    }
+    
+    NSString *key = [NSString stringWithFormat:@"info_alert%d",num];
+    NSString *mes = NSLocalizedString(key,nil);
+    [alert setMessage:mes];
+    
+    [alert show];
 }
 
-#pragma mark -Segment
+#pragma mark - AlertView Delegate
+- (void)alertView:(UIAlertView *)alertView
+clickedButtonAtIndex:(NSInteger)buttonIndex {
+ NSLog(@"--- Alert Tag:%d",alertView.tag);
+}
+
+#pragma mark - Segment
 - (void)initSegment {
     seg0.selectedSegmentIndex = (int)mainClass.flagEdit;
     seg1.selectedSegmentIndex = (int)mainClass.flagResize;
@@ -134,6 +147,7 @@
         // Error
         if ([self checkDoubleFlag:flag otherFlag:mainClass.flagResize]) {
             sender.selectedSegmentIndex = mainClass.flagEdit;
+            [self showAlert:10];
             return;
         }
         // Edit
@@ -144,6 +158,7 @@
         // Error
         if ([self checkDoubleFlag:flag otherFlag:mainClass.flagEdit]) {
             sender.selectedSegmentIndex = mainClass.flagResize;
+            [self showAlert:10];
             return;
         }
         // Resise
@@ -222,41 +237,54 @@
 #pragma mark - TextField Delegate
 - (BOOL)textFieldShouldReturn:(UITextField*)tf {
     
-    NSLog(@"--- tag:%d",tf.tag);
+    //NSLog(@"--- tag:%d",tf.tag);
+    //NSLog(@"--- %@, %f",valuesArr, mainClass.maxY);
     
-    NSLog(@"--- %@, %f",valuesArr, mainClass.maxY);
-    
-    NSString *sizeStr = tf.text;
-    float val = sizeStr.floatValue;
+    float val;
     float preVal = [[valuesArr objectAtIndex:tf.tag]floatValue];
+    NSString *sizeStr = tf.text;
     
-    if (![self checkNumber:val]) {
+    // Check String
+    if (![self checkNumber:sizeStr]) {
         tf.text = [FMT:@"%.0f",preVal];
+        [self showAlert:11]; // Alert
         return NO;
+    } else {
+        val = sizeStr.floatValue;
+        if (val <= 0) {
+            return NO;
+        }
     }
     
+    //NSLog(@"--- va:%.0f tf.tag:%d",val, tf.tag);
+    
+
+    float val0 = [[valuesArr objectAtIndex:0]floatValue];
+    float val1 = [[valuesArr objectAtIndex:1]floatValue];
+    float val2 = [[valuesArr objectAtIndex:2]floatValue];
+    float val3 = [[valuesArr objectAtIndex:3]floatValue];
+    
+    //NSLog(@"--- %.0f, %.0f, %.0f, %.0f",val0, val1, val2, val3);
+    
     if (tf.tag == 0) {
-        if ([[valuesArr objectAtIndex:1]floatValue] < val) {
+        if (val1 < val) {
             tf.text = [FMT:@"%.0f",preVal];
             return NO;
         }
     }
     if (tf.tag == 1) {
-        if (val < [[valuesArr objectAtIndex:0]floatValue] &&
-            [[valuesArr objectAtIndex:2]floatValue] <= val) {
+        if (val < val0 || val2 <= val) {
             tf.text = [FMT:@"%.0f",preVal];
             return NO;
         }
     }
     if (tf.tag == 2) {
-        if (val < [[valuesArr objectAtIndex:1]floatValue] &&
-            [[valuesArr objectAtIndex:3]floatValue] < val) {
+        if (val < val1 || val3 <= val) {
             tf.text = [FMT:@"%.0f",preVal];
             return NO;
         }
     }
     if (tf.tag == 3) {
-        
         if (mainClass.maxY < val) {
             tf.text = [FMT:@"%.0f",preVal];
             return NO;
@@ -306,29 +334,15 @@
     [alert show];
 }
 
-- (BOOL)checkNumber:(float)val {
+- (BOOL)checkNumber:(NSString*)str {
     
+    int length = [FMT:@"%@",str].length;
     
-    if (val <= 0.0f) { // 入力しない時
-        [self showTextError:0]; // Error
-        return NO;
-    }
-    
-    int length = [FMT:@"%d",(int)val].length;
-    
-    
-    NSLog(@"--- length:%d",length);
-    
-    if (4 < length) { // 入力オーバー
-        return NO;
-    }
-    
-    NSString *num = [FMT:@"%d",(int)val];
-    
+    // Check Number
     for (int i = 0; i < length; i++) {
         
         // 一文字取得
-        NSString *checkStr = [num substringWithRange:NSMakeRange(i, 1)];
+        NSString *checkStr = [str substringWithRange:NSMakeRange(i, 1)];
         
         NSLog(@"--- Num:%@",checkStr);
         
@@ -347,6 +361,7 @@
             return NO;
         }
     }
+
     
     return YES;
 }

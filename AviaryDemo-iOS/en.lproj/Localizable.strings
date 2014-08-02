@@ -7,4 +7,17 @@
 */
 "sampleText" = "Sample text";
 
+"title" = "Notice";
+"new_ver" = "The new version is now available.\nPlease use it at new version!";
+"no_res"  = "Please use in a location\nwith good internet environment.";
 
+"error" = "Error";
+"info_alert5" = "You will be able to use\nthe image processing function.";
+"info_alert6" = "You will be able to\nchange the image size.";
+"info_alert7" = "You can register the image size\nin descending order.";
+"info_alert8" = "Select the image type";
+"info_alert9" = "Silent moode is coming next version!";
+"info_alert10" = "Please use either of\nthe edit mode or resize mode!";
+"info_alert11" = "Please enter the appropriate value!";
+
+"save" = "Photo is saved...";

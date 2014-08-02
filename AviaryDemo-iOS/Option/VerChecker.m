@@ -36,7 +36,7 @@
 
 - (void)checkMyVersion:(AFSDKDemoViewController*)mainClass {
     
-    // Base View
+    /*// Base View
     UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 100, 100)];
     view.center = mainClass.view.center;
     view.backgroundColor = WAITVIEW_COL;
@@ -61,6 +61,7 @@
     indicator.center = CGPointMake(mainClass.view.center.x, mainClass.view.center.y - 10);
     [mainClass.view addSubview:indicator];
     [indicator startAnimating];
+    */
 
     
     NSURL *url = [NSURL URLWithString:JSON_URL];
@@ -110,31 +111,28 @@
                                    
                                    [self showAlert:NO];
                                }
-                               
-                               // Hidden View
+                               /*// Hidden View
                                [UIView beginAnimations:nil context:nil];
                                [UIView setAnimationDuration:0.1f];
                                view.alpha = 0.0f;
                                indicator.alpha = 0.0f;
                                label.alpha = 0.0f;
                                [UIView commitAnimations];
-                               
-                               
+                               */
                            }];
-
 }
 
 - (void)showAlert:(BOOL)flagVerUp {
     
     UIAlertView *alert = [[UIAlertView alloc] init];
-    alert.title = @"お知らせ";
-    alert.message = @"最新バージョンをご利用ください";
+    alert.title = NSLocalizedString(@"title", nil);
+    alert.message = NSLocalizedString(@"new_ver", nil);
     [alert addButtonWithTitle:@"OK"];
     
     if (!flagVerUp) {
         // 圏外
-        alert.title = @"エラー";
-        alert.message = @"通信環境の良い場所でご利用下さい";
+        alert.title = NSLocalizedString(@"error", nil);
+        alert.message = NSLocalizedString(@"no_res", nil);
         alert.tag = 1;
     }
     
