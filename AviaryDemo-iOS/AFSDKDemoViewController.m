@@ -45,6 +45,8 @@ UIPopoverControllerDelegate
 {
     [super viewDidLoad];
     
+    [self hiddenStatusBar];
+    
     //NSLog(@"--- %@",NSLocalizedString(@"sampleText", nil));
     
     // Allocate Asset Library
@@ -217,6 +219,10 @@ UIPopoverControllerDelegate
         NSLog(@"--- flagResize:%d",flagResize);
         // 画像の大きさを調整するView
         if (flagResize) {
+            
+            // Set Size Val
+            sizeVal = maxX / maxY;
+            
             [imgPicker.view addSubview:scaleView];
             if (SMALL_SCREEN) {
                 sizeLabel.transform = CGAffineTransformMakeTranslation(0, 0);
@@ -564,6 +570,8 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
     }
     
     [self dismissViewControllerAnimated:YES completion:nil];
+    
+    [self hiddenStatusBar];
 }
 
 // This is called when the user taps "Cancel" in the photo editor.
@@ -571,6 +579,8 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
 {
     //NSLog(@"--- dismiss:%d",editor.view.tag);
     [self dismissViewControllerAnimated:YES completion:nil];
+    
+    [self hiddenStatusBar];
 }
 
 #pragma mark - Photo Editor Customization
@@ -580,7 +590,9 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
     [AFPhotoEditorController setAPIKey:API_KEY secret:SECRET_KEY];
     
     // Set Tool Order
-    NSArray * toolOrder = nil;//@[kAFEffects, kAFFocus, kAFFrames, kAFStickers, kAFEnhance, kAFOrientation, kAFCrop, kAFAdjustments, kAFSplash, kAFDraw, kAFText, kAFRedeye, kAFWhiten, kAFBlemish, kAFMeme];
+    NSArray * toolOrder = @[kAFEffects, kAFFocus, kAFFrames, kAFStickers, kAFEnhance, kAFOrientation,
+                            //kAFCrop, // 切り抜き
+                            kAFAdjustments, kAFSplash, kAFDraw, kAFText, kAFRedeye, kAFWhiten, kAFBlemish, kAFMeme];
     [AFPhotoEditorCustomization setToolOrder:toolOrder];
     
     // Set Custom Crop Sizes
@@ -606,50 +618,7 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
     pickerInfoDic = info;
     
     NSLog(@"%@",info);
-    
-    /*
-    
-    UIImage *image = (UIImage *)[info objectForKey:UIImagePickerControllerOriginalImage];
-    
-    if (!image) { return; }
-    
-    
-    //NSLog(@"%@",info);
-    
-    [self hiddenStatusBar];
-    
-    [self dismissViewControllerAnimated:YES completion:nil];
-    
-    // Set Imgae
-    [imagePreviewView setImage:(UIImage *)[info objectForKey:UIImagePickerControllerOriginalImage]];
-    
-    // Set Size
-    CGRect photoRect = [(NSValue *)[info objectForKey:UIImagePickerControllerCropRect] CGRectValue];
-    
-    photoX = photoRect.size.width;
-    photoY = photoRect.size.height;
-    
-    // 画像の向き
-    if (photoX < photoY) {
-        photoShift = PORTRAIT;
-    } else {
-        photoShift = LANDSCAPE;
-    }
-    
-    [titleView removeFromSuperview];
-    
-    //[self presentViewController:picker animated:YES completion:NULL];
-    
-    
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
-        //[self dismissViewControllerAnimated:YES completion:completion];
-        [self dismissViewControllerAnimated:YES completion:nil];
-    }else{
-        //[self dismissPopoverWithCompletion:completion];
-        [self dismissPopoverWithCompletion:nil];
-    }
-    */
-    
+ 
     photoUrl = nil;
     
     if (type == ALBUM) {
@@ -674,11 +643,14 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
         // Set Slider
         slider.value = photoY;
         
+        // Set Size Val
+        sizeVal = photoX / photoY;
+        
         [self setPhotoUrl:photoUrl];
         
     } else { // Camera
         
-        NSLog(@"--- Pre Size:%.0f x %.0f",photoY, photoX);
+        NSLog(@"--- Pre Size:%.0f x %.0f",photoX, photoY);
         
         [self setLastPara];
         
@@ -705,6 +677,7 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
             [self dismissViewControllerAnimated:YES completion:nil];
         }
     }
+
 }
 
 // Set last para
@@ -752,7 +725,7 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
     
     // 画像のリサイズ後のサイズ
     CGSize resizedSize = CGSizeMake(photoX, photoY);
-    NSLog(@"--- Saved Size:%.0f x %.0f",photoY, photoX);
+    NSLog(@"--- Saved Size:%.0f x %.0f",photoX, photoY);
     
     // 画像をリサイズする
     UIGraphicsBeginImageContext(resizedSize);
@@ -833,6 +806,7 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
 
 - (void) imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
+    [self hiddenStatusBar];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
