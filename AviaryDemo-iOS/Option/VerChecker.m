@@ -107,9 +107,7 @@
                                else { // Error
                                    NSLog(@"--- Error");
                                    
-                                   mainClass.view.backgroundColor = [UIColor redColor];
-                                   
-                                   [self showAlert:NO];
+                                   //[self showAlert:NO];
                                }
                                /*// Hidden View
                                [UIView beginAnimations:nil context:nil];
@@ -127,6 +125,7 @@
     UIAlertView *alert = [[UIAlertView alloc] init];
     alert.title = NSLocalizedString(@"title", nil);
     alert.message = NSLocalizedString(@"new_ver", nil);
+    alert.delegate = self;
     [alert addButtonWithTitle:@"OK"];
     
     if (!flagVerUp) {
@@ -134,6 +133,7 @@
         alert.title = NSLocalizedString(@"error", nil);
         alert.message = NSLocalizedString(@"no_res", nil);
         alert.tag = 1;
+        alert.delegate = nil;
     }
     
     // iPod系は外す？？
@@ -147,6 +147,7 @@
     
     if (alertView.tag == 0) {
         // App Store
+        NSLog(@"--- Opne URL");
         NSURL *url = [NSURL URLWithString:NSLocalizedString(@"open_url", nil)];
         [[UIApplication sharedApplication] openURL:url];
     } else {

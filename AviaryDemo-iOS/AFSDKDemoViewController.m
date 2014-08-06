@@ -231,12 +231,8 @@ UIPopoverControllerDelegate
             [scaleView removeFromSuperview];
         }
         
-        
-        // Set Scale
-        [setBtn1 setTitle:[FMT:@"%.0f",[[valuesArr objectAtIndex:0]floatValue]] forState:UIControlStateNormal];
-        [setBtn2 setTitle:[FMT:@"%.0f",[[valuesArr objectAtIndex:1]floatValue]] forState:UIControlStateNormal];
-        [setBtn3 setTitle:[FMT:@"%.0f",[[valuesArr objectAtIndex:2]floatValue]] forState:UIControlStateNormal];
-        [setBtn4 setTitle:[FMT:@"%.0f",[[valuesArr objectAtIndex:3]floatValue]] forState:UIControlStateNormal];
+        // Scale Btn Para
+        [self setScale];
         
         
         //imgPicker.videoQuality = UIImagePickerControllerQualityTypeHigh;
@@ -260,6 +256,9 @@ UIPopoverControllerDelegate
         //imgPicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
         
         //NSLog(@"--- flagResize:%d",flagResize);
+        
+        // Set Scale Para
+        [self setScale];
         
         type = sender.tag;
         [self presentViewController:imgPicker animated:YES completion:NULL];
@@ -300,6 +299,13 @@ UIPopoverControllerDelegate
     [self hiddenStatusBar];
 }
 
+- (void)setScale {
+    // Set Scale
+    [setBtn1 setTitle:[FMT:@"%.0f",[[valuesArr objectAtIndex:0]floatValue]] forState:UIControlStateNormal];
+    [setBtn2 setTitle:[FMT:@"%.0f",[[valuesArr objectAtIndex:1]floatValue]] forState:UIControlStateNormal];
+    [setBtn3 setTitle:[FMT:@"%.0f",[[valuesArr objectAtIndex:2]floatValue]] forState:UIControlStateNormal];
+    [setBtn4 setTitle:[FMT:@"%.0f",[[valuesArr objectAtIndex:3]floatValue]] forState:UIControlStateNormal];
+}
 
 // Tool Bar Btn Action
 - (IBAction)toolBarBtnAction:(UIBarButtonItem *)sender {
