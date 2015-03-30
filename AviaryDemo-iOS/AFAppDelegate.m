@@ -27,7 +27,7 @@
     //NSLog(@"%f",self.window.frame.size.height);
     //viewController.view.frame = self.window.frame;
     
-    // Google Analytics ver3.02
+    // Google Analytics ver3.08
 	[GAI sharedInstance].trackUncaughtExceptions = YES;
 	[GAI sharedInstance].dispatchInterval = 20;
 	//[[[GAI sharedInstance] logger] setLogLevel:kGAILogLevelVerbose];

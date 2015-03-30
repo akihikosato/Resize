@@ -5,34 +5,34 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>FB73A681-D189-4212-95B5-97DA9655FAD8</string>
+	<string>10FB7988-1D95-4437-A583-86382F578846</string>
 	<key>IDESourceControlProjectName</key>
 	<string>PhotoEditor</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>3EDCEBB5-09D6-4646-B4F2-22CA8B8E8F26</key>
+		<key>A47D7573A09F9774774536C262AF8844B0E19766</key>
 		<string>https://github.com/akihikosato/Resize.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>PhotoEditor.xcodeproj/project.xcworkspace</string>
+	<string>PhotoEditor.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>3EDCEBB5-09D6-4646-B4F2-22CA8B8E8F26</key>
+		<key>A47D7573A09F9774774536C262AF8844B0E19766</key>
 		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/akihikosato/Resize.git</string>
 	<key>IDESourceControlProjectVersion</key>
-	<integer>110</integer>
+	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>3EDCEBB5-09D6-4646-B4F2-22CA8B8E8F26</string>
+	<string>A47D7573A09F9774774536C262AF8844B0E19766</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>3EDCEBB5-09D6-4646-B4F2-22CA8B8E8F26</string>
+			<string>A47D7573A09F9774774536C262AF8844B0E19766</string>
 			<key>IDESourceControlWCCName</key>
 			<string>Resize</string>
 		</dict>
